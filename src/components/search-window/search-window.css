@@ -1,0 +1,26 @@
+.search-window {
+    max-width: 1010px;
+    margin: 0 auto;
+}
+
+.search-bar-wrap {
+    padding-bottom: 36px;
+}
+
+.search-window__card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 36px;
+}
+
+.search-window__pagination {
+    display: flex;
+    justify-content: center;
+    padding: 37px 0 17px;
+}
+@media (max-width: 1010px) {
+    .search-window__card  {
+        justify-content: center;
+    }
+}

@@ -1,0 +1,30 @@
+.ant-layout {
+    background-color: white !important;
+    min-height: 100% !important;
+}
+
+.ant-layout-header {
+    background-color: yellow !important;
+    margin-bottom: 13px;
+}
+
+.ant-layout-footer {
+    background-color: yellow !important;
+}
+
+.tabs-panel {
+    height: 100%;
+}
+
+.tabs-panel .ant-tabs-nav-wrap {
+    justify-content: center;
+
+}
+
+.tabs-panel .ant-tabs-tab {
+    padding: 16px 0;
+}
+
+.tabs-panel .ant-tabs-nav {
+    margin-bottom: 13px !important;
+}
