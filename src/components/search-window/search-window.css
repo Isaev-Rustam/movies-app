@@ -1,6 +1,10 @@
 .search-window {
     max-width: 1010px;
     margin: 0 auto;
+    display:flex;
+    justify-content: space-between;
+    flex-direction: column;
+    flex: 1 1 auto;
 }
 
 .search-bar-wrap {
