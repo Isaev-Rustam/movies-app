@@ -1,30 +1,61 @@
 .ant-layout {
-    background-color: white !important;
-    min-height: 100% !important;
+  background-color: white !important;
+  min-height: 100% !important;
 }
 
 .ant-layout-header {
-    background-color: yellow !important;
-    margin-bottom: 13px;
+  background-color: yellow !important;
+  margin-bottom: 13px;
 }
 
-.ant-layout-footer {
-    background-color: yellow !important;
+.ant-layout-content {
+  display: flex;
+  flex-direction: column;
 }
 
 .tabs-panel {
-    height: 100%;
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-tabs {
+  flex: auto;
+}
+
+.ant-tabs-content-holder {
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-layout-footer {
+  background-color: yellow !important;
+}
+
+.ant-tabs-content {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-tabs-tabpane {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs-panel {
+  height: 100%;
 }
 
 .tabs-panel .ant-tabs-nav-wrap {
-    justify-content: center;
-
+  justify-content: center;
 }
 
 .tabs-panel .ant-tabs-tab {
-    padding: 16px 0;
+  padding: 16px 0;
 }
 
 .tabs-panel .ant-tabs-nav {
-    margin-bottom: 13px !important;
+  margin-bottom: 13px !important;
 }

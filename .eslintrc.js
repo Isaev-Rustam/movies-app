@@ -15,9 +15,9 @@ module.exports = {
   },
   plugins: ['jsx-a11y', 'react', 'import', 'prettier'],
   rules: {
-    'import/prefer-default-export': 'off',
     'no-underscore-dangle': 0,
-    'react/state-in-constructor': 0,
+    'import/prefer-default-export': 'off',
+    'react/state-in-constructor': 'off',
     'jsx-a11y/label-has-associated-control': 0,
     'react/jsx-props-no-spreading': 0,
     'react/prop-types': 0,

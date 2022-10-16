@@ -7,15 +7,10 @@ function Card({ children }) {
 
 export default Card;
 
-Card.Image = function CardImage({ img, alt }) {
-  const imageApi = {
-    baseUrl: 'http://image.tmdb.org/t/p/',
-    backdropSizes: ['w300', 'w780', 'w1280', 'original'],
-  };
-
+Card.Image = function CardImage({ imageURl, alt }) {
   return (
     <div className="card__img-box">
-      <img className="card__img" src={`${imageApi.baseUrl}${imageApi.backdropSizes[0]}${img}`} alt={alt} />
+      <img className="card__img" src={imageURl} alt={alt} />
     </div>
   );
 };
