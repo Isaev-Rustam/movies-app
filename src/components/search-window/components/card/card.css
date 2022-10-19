@@ -9,6 +9,8 @@
   font-size: 12px;
   color: #000000;
   flex: 0 1 calc(100% / 2);
+  filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
+  box-shadow: 0px 10px 22px -14px rgb(0 0 0 / 30%);
 }
 
 .card__img-box {
@@ -109,7 +111,7 @@
   }
 
   .card__title {
-    max-width: 250px;
+    man-width: 220px;
   }
 
   .card__content {

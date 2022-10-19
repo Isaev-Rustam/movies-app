@@ -30,6 +30,20 @@
   margin-top: auto;
 }
 
+.ant-pagination-item {
+  border: none !important;
+}
+
+.ant-pagination-item a:hover {
+  color: #ffffff;
+  background-color: #1890ff;
+  border-radius: 4px;
+}
+
+.ant-pagination-item-link {
+  border: none !important;
+}
+
 @media (max-width: 905px) {
   .search-window__card {
     justify-content: center;

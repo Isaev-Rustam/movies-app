@@ -22,20 +22,24 @@ export default class SwapiService {
 
   _defaultImage = icon;
 
-  async getResourceMovies(movie) {
-    const url = `${this._apiBase}/search/movie?api_key=${this._apiKey}&language=en-US&query=${movie}&page=1&include_adult=false`;
+  async getResourceMovies(movie, currentPage) {
+    const url = `${this._apiBase}/search/movie?api_key=${this._apiKey}&language=en-US&query=${movie}&page=${currentPage}&include_adult=false`;
 
     const res = await fetch(url);
 
     if (!res.ok) {
       throw new Error(`Could not fetch ${url} , received ${res.status}`);
     }
+
     return res.json();
   }
 
-  async getMovies(movie) {
-    const res = await this.getResourceMovies(movie);
-    return res.results.map(SwapiService._transformMovies);
+  async getData(movie, currentPage) {
+    const res = await this.getResourceMovies(movie, currentPage);
+    return {
+      movies: res.results.map(SwapiService._transformMovies),
+      totalPages: res.total_pages,
+    };
   }
 
   getImageUrl(imgUrl) {

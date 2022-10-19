@@ -1,66 +1,105 @@
 import './search-window.css';
 import { Component } from 'react';
-import { Alert, Spin } from 'antd';
+import { Alert, Spin, Input, Pagination } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { format } from 'date-fns';
+import debounce from 'lodash.debounce';
 
-import SearchBar from '../search-bar';
-import PaginationItem from '../pagination-item';
 import SwapiService from '../../services/services';
 import { stringLength } from '../../methods/methods';
 
 import Card from './components/card';
+
+const AlertMessage = {
+  error: { message: 'Ошибка при запросе.', description: 'Проверьте сетевое подключение.' },
+  info: { message: 'По вашему запросу ничего не найдено.', description: 'Попробуйте изменить ваш запрос.' },
+};
 
 class SearchWindow extends Component {
   SwapiService = new SwapiService();
 
   state = {
     movies: [],
-    loading: true,
-    onError: false,
-    textMessageError: null,
+    loading: false,
+    messageBanner: false,
     typeBannerMessage: null,
+    currentPage: 1,
+    totalPages: null,
+    movieSearch: 'bad boys',
   };
 
+  debounceSearch = debounce((movie, currentPage) => {
+    this.getMovie(movie, currentPage);
+    this.setState({ loading: true });
+  }, 1000);
+
   componentDidMount() {
-    this.getMovie();
+    const { movieSearch, currentPage } = this.state;
+    this.debounceSearch(movieSearch, currentPage);
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { movieSearch, currentPage } = this.state;
+    if (currentPage !== prevState.currentPage) {
+      this.debounceSearch(movieSearch, currentPage);
+    }
+  }
+
+  onSearch = (e) => {
+    const { value } = e.target;
+    if (!value.trim().length) {
+      this.setState({ movieSearch: '', movies: [] });
+      return;
+    }
+    this.setState({ currentPage: 1, movieSearch: value });
+    this.debounceSearch(value, this.currentPage);
+  };
 
   onError = () => {
     this.setState({
       loading: false,
-      onError: true,
-      textMessageError: ['Ошибка при запросе.', 'Проверьте сетевое подключение.'],
+      messageBanner: true,
       typeBannerMessage: 'error',
+      movies: [],
     });
   };
 
-  getMovie() {
-    this.SwapiService.getMovies('The way back')
-      .then((movies) => {
-        if (movies.length) this.setState({ movies, loading: false });
-        if (!movies.length)
+  onChangePagination = (page) => {
+    this.setState({ currentPage: page });
+  };
+
+  getMovie(movie) {
+    const { currentPage } = this.state;
+    this.SwapiService.getData(movie, currentPage)
+      .then(({ movies, totalPages }) => {
+        if (!movies.length) {
           this.setState({
             movies,
             loading: false,
-            onError: true,
-            textMessageError: ['По вашему запросу ничего не найдено.', 'Попробуйте изменить ваш запрос.'],
+            messageBanner: true,
             typeBannerMessage: 'info',
           });
+          return;
+        }
+        this.setState({ movies, loading: false, totalPages, messageBanner: false });
       })
       .catch(this.onError);
   }
 
   render() {
-    const { movies, loading, onError, textMessageError, typeBannerMessage } = this.state;
+    const { movies, loading, messageBanner, typeBannerMessage, currentPage, totalPages, movieSearch } = this.state;
     const spinner = loading ? <Spin indicator={<LoadingOutlined style={{ fontSize: 60 }} />} /> : null;
-    const errorMessage = onError ? (
-      <Alert type={typeBannerMessage} message={textMessageError[0]} description={textMessageError[1]} />
-    ) : null;
+    const errorMessage = messageBanner ? <Alert type={typeBannerMessage} {...AlertMessage[typeBannerMessage]} /> : null;
     return (
       <div className="search-window">
         <div className="search-bar-wrap">
-          <SearchBar />
+          <Input
+            value={movieSearch}
+            maxLength={40}
+            onChange={this.onSearch}
+            placeholder="Type to search..."
+            allowClear
+          />
         </div>
         <div className="search-window__card">
           {spinner}
@@ -87,7 +126,7 @@ class SearchWindow extends Component {
                       </button>
                     </Card.Btns>
                   </Card.Header>
-                  <Card.Text>{stringLength(overview, 200)}</Card.Text>
+                  <Card.Text>{stringLength(overview, 175)}</Card.Text>
                   <Card.RateItem count={10} />
                 </Card.Content>
               </Card>
@@ -95,7 +134,7 @@ class SearchWindow extends Component {
           })}
         </div>
         <div className="search-window__pagination">
-          <PaginationItem />
+          <Pagination current={currentPage} onChange={this.onChangePagination} total={totalPages} />
         </div>
       </div>
     );
